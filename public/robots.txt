@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin
+Disallow: /login
+
+# Host
+Host: https://anshu-builds.vercel.app/
+
+# Sitemaps
+Sitemap: https://anshu-builds.vercel.app/sitemap.xml
