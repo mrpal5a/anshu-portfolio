@@ -9,7 +9,20 @@ export default function Preloader() {
 
   useEffect(() => {
     setMounted(true);
-    const t = setTimeout(() => setDone(true), 1800);
+
+    // Skip the intro on repeat visits within a session, or if the user
+    // prefers reduced motion — keeps navigation feeling instant.
+    const seen = sessionStorage.getItem('preloaded');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (seen || reduced) {
+      setDone(true);
+      return;
+    }
+
+    const t = setTimeout(() => {
+      setDone(true);
+      sessionStorage.setItem('preloaded', '1');
+    }, 1800);
     return () => clearTimeout(t);
   }, []);
 

@@ -76,7 +76,24 @@
   ::-webkit-scrollbar { width: 3px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
   ::selection { background: var(--accent-dim); color: var(--text); }
+
+  img, svg { max-width: 100%; }
+
+  /* Accessibility + smoothness: honour the OS reduced-motion setting */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    /* Keep the native cursor for users who prefer reduced motion */
+    @media (pointer: fine) {
+      *, *::before, *::after { cursor: auto !important; }
+    }
+  }
 }
 
 @layer components {

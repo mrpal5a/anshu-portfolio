@@ -5,16 +5,24 @@ import ProofOfPerformance from '@/components/sections/ProofOfPerformance';
 import About from '@/components/sections/About';
 import Services from '@/components/sections/Services';
 import Projects from '@/components/sections/Projects';
-import Process from '@/components/sections/Process';
+import WorkflowFlow from '@/components/sections/WorkflowFlow';
 import Testimonials from '@/components/sections/Testimonials';
+import FAQ from '@/components/sections/FAQ';
 import Contact from '@/components/sections/Contact';
+import JsonLd from '@/components/seo/JsonLd';
+import { faqs } from '@/lib/faq-data';
+import { faqJsonLd } from '@/lib/structured-data';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { normalizeSupabaseImageUrl } from '@/lib/utils';
 import type { Project } from '@/types/database';
 
 export const metadata: Metadata = {
-  title: 'Anshu — Automation & Web Developer',
-  description: 'I build Google Sheets automation, Apps Script workflows, and professional websites for businesses in Gujarat and across India.',
+  title: {
+    absolute: 'Website Developer & Automation Engineer in Ankleshwar, Gujarat | Anshu',
+  },
+  description:
+    'Anshu builds fast, SEO-friendly websites and Google Sheets / Apps Script automation for businesses in Ankleshwar, Bharuch and across Gujarat. Premium design, real automation, delivered in weeks.',
+  alternates: { canonical: '/' },
 };
 
 export const revalidate = 3600; // revalidate every hour
@@ -50,14 +58,16 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={faqJsonLd(faqs)} />
       <Hero />
       <ProofOfPerformance />
       {featuredProject && <FeaturedCaseStudy project={featuredProject} />}
       <About />
       <Services />
       <Projects featuredProjectId={featuredProject?.id} projects={projects ?? undefined} />
-      <Process />
+      <WorkflowFlow />
       <Testimonials />
+      <FAQ />
       <Contact />
     </>
   );

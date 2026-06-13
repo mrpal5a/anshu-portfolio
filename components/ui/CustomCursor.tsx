@@ -15,8 +15,18 @@ export default function CustomCursor() {
 
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+
+  // Only enable the custom cursor on fine-pointer devices that don't
+  // request reduced motion (skips touch screens & accessibility users).
+  useEffect(() => {
+    const fine = window.matchMedia('(pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setEnabled(fine && !reduced);
+  }, []);
 
   useEffect(() => {
+    if (!enabled) return;
     const move = (e: MouseEvent) => { mx.set(e.clientX); my.set(e.clientY); };
     const enter = (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest('a,button,[data-cursor]')) setHovered(true);
@@ -39,7 +49,9 @@ export default function CustomCursor() {
       window.removeEventListener('mousedown', down);
       window.removeEventListener('mouseup', up);
     };
-  }, [mx, my]);
+  }, [mx, my, enabled]);
+
+  if (!enabled) return null;
 
   return (
     <>
