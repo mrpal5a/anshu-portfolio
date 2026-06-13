@@ -32,16 +32,16 @@ export default function Hero() {
 
         {/* Glow blobs */}
         <motion.div
-          className="absolute left-[-8%] top-16 w-96 h-96 rounded-full blur-[100px]"
-          animate={{ scale: [1, 1.12, 1], opacity: [0.25, 0.35, 0.25] }}
+          className="absolute left-[-8%] top-16 w-96 h-96 rounded-full blur-[90px]"
+          animate={{ opacity: [0.22, 0.34, 0.22] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ background: 'radial-gradient(circle, rgba(184,134,11,0.25), transparent 60%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(184,134,11,0.25), transparent 60%)', willChange: 'opacity' }}
         />
         <motion.div
           className="absolute right-[-5%] top-32 w-72 h-72 rounded-full blur-[80px]"
-          animate={{ scale: [1, 1.18, 1], opacity: [0.15, 0.25, 0.15] }}
+          animate={{ opacity: [0.14, 0.24, 0.14] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          style={{ background: 'radial-gradient(circle, rgba(212,168,75,0.2), transparent 65%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(212,168,75,0.2), transparent 65%)', willChange: 'opacity' }}
         />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(184,134,11,0.4)] to-transparent" />
       </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google';
+import { Fraunces, Manrope, DM_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import Preloader from '@/components/ui/Preloader';
 import CustomCursor from '@/components/ui/CustomCursor';
@@ -7,14 +7,23 @@ import SmoothScroll from '@/components/ui/SmoothScroll';
 import { SITE_URL } from '@/lib/structured-data';
 import './globals.css';
 
-const playfair = Playfair_Display({
-  subsets: ['latin'], variable: '--font-playfair', display: 'swap',
+// Display — Fraunces: a soft, high-contrast editorial serif for a premium feel.
+const playfair = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
 });
-const dmSans = DM_Sans({
-  subsets: ['latin'], variable: '--font-dm-sans', display: 'swap', weight: ['300','400','500'],
+// Body — Manrope: a clean, modern geometric sans with substantial weights.
+const dmSans = Manrope({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
 });
 const dmMono = DM_Mono({
-  subsets: ['latin'], variable: '--font-dm-mono', display: 'swap', weight: ['400'],
+  subsets: ['latin'], variable: '--font-dm-mono', display: 'swap', weight: ['400','500'],
 });
 
 export const metadata: Metadata = {

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { X, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
@@ -23,9 +22,16 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
-    const onScroll = () => {
+    // Throttle with rAF so we do at most one DOM read per frame — removes
+    // scroll-jank caused by getBoundingClientRect running on every event.
+    let ticking = false;
+
+    const read = () => {
+      ticking = false;
       setScrolled(window.scrollY > 50);
-      const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+
+      const scrollable = document.body.scrollHeight - window.innerHeight;
+      const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
       setProgress(Math.min(pct, 100));
 
       const sectionIds = ['about', 'services', 'projects', 'process', 'contact'];
@@ -45,9 +51,16 @@ export default function Navbar() {
       }
     };
 
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(read);
+      }
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
-    onScroll();
+    read();
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
@@ -59,11 +72,19 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
+  // Close the menu with the Escape key.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileOpen]);
+
   return (
     <>
       {/* Reading progress bar */}
       <div
-        className="fixed top-0 left-0 h-[2px] z-[9990] transition-all duration-100"
+        className="fixed top-0 left-0 h-[2px] z-[9990]"
         style={{ width: `${progress}%`, background: 'var(--accent)' }}
       />
 
@@ -102,16 +123,37 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile — theme toggle + hamburger */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile — theme toggle + animated toggle (opens AND closes) */}
+        <div className="flex md:hidden items-center gap-2 relative z-[960]">
           <ThemeToggle />
           <button
-            className="p-1 transition-colors"
-            style={{ color: 'var(--muted)' }}
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
+            type="button"
+            className="relative w-10 h-10 flex items-center justify-center rounded-sm"
+            style={{ border: '1px solid var(--border)', color: 'var(--text)' }}
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
           >
-            <Menu size={22} />
+            <span className="relative block w-5 h-[14px]">
+              <motion.span
+                className="absolute left-0 top-0 block h-[1.5px] w-full rounded-full"
+                style={{ background: 'currentColor' }}
+                animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+              <motion.span
+                className="absolute left-0 top-[6px] block h-[1.5px] w-full rounded-full"
+                style={{ background: 'currentColor' }}
+                animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
+                transition={{ duration: 0.18 }}
+              />
+              <motion.span
+                className="absolute left-0 top-[12px] block h-[1.5px] w-full rounded-full"
+                style={{ background: 'currentColor' }}
+                animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
+            </span>
           </button>
         </div>
       </nav>
@@ -120,41 +162,58 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            key="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[850] flex flex-col items-center justify-center gap-8"
+            transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="fixed inset-0 z-[890] md:hidden flex flex-col pt-20"
             style={{ background: 'var(--bg)' }}
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setMobileOpen(false)}
           >
-            <button
-              className="absolute top-6 right-6 transition-colors"
-              style={{ color: 'var(--muted)' }}
-              onClick={() => setMobileOpen(false)}
-              aria-label="Close menu"
+            <nav
+              className="flex-1 flex flex-col items-center justify-center gap-7"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={24} />
-            </button>
-
-            {links.map((l, i) => (
-              <motion.div
-                key={l.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.06 }}
-              >
-                <Link
-                  href={l.href}
-                  className="font-display text-4xl transition-colors"
-                  style={{ color: 'var(--text)' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
-                  onMouseLeave={e => (e.currentTarget.style.color = 'var(--text)')}
-                  onClick={() => setMobileOpen(false)}
+              {links.map((l, i) => (
+                <motion.div
+                  key={l.label}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 12, transition: { duration: 0.15 } }}
+                  transition={{ delay: 0.08 + i * 0.05, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
-                  {l.label}
+                  <Link
+                    href={l.href}
+                    className="font-display text-4xl"
+                    style={{ color: activeSection === l.id ? 'var(--accent)' : 'var(--text)' }}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {l.label}
+                  </Link>
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.08 + links.length * 0.05, duration: 0.4 }}
+                className="mt-4"
+              >
+                <Link href="#contact" className="btn-primary" onClick={() => setMobileOpen(false)}>
+                  Start Your Project
                 </Link>
               </motion.div>
-            ))}
+            </nav>
+
+            <p
+              className="pb-10 text-center font-mono text-[0.7rem] tracking-[0.2em] uppercase"
+              style={{ color: 'var(--subtle)' }}
+            >
+              Tap anywhere to close
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
