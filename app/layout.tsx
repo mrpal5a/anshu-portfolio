@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import Preloader from '@/components/ui/Preloader';
 import CustomCursor from '@/components/ui/CustomCursor';
 import SmoothScroll from '@/components/ui/SmoothScroll';
+import { SITE_URL } from '@/lib/structured-data';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -17,25 +18,64 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com'),
-  title: { default: 'Anshu — Automation & Web Developer', template: '%s | Anshu' },
-  description: 'I build Google Sheets automation, Apps Script workflows, and professional websites for businesses. Based in Ankleshwar, Gujarat.',
-  keywords: ['automation developer','Google Apps Script','Google Sheets automation','web developer','Ankleshwar','Gujarat','India'],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Anshu — Website Developer & Automation Engineer in Ankleshwar, Gujarat',
+    template: '%s | Anshu — Web Developer & Automation Engineer',
+  },
+  description:
+    'Anshu is a website developer and automation engineer in Ankleshwar, Gujarat, building fast SEO-friendly websites and Google Sheets / Apps Script automation for businesses in Bharuch and across Gujarat.',
+  keywords: [
+    'website developer Ankleshwar',
+    'web developer Ankleshwar',
+    'website developer Bharuch',
+    'automation engineer Ankleshwar',
+    'automation engineer Gujarat',
+    'web developer Gujarat',
+    'website designer Bharuch',
+    'Google Apps Script developer',
+    'Google Sheets automation',
+    'business automation Gujarat',
+    'freelance web developer India',
+    'Next.js developer India',
+    'SEO website Ankleshwar',
+    'Anshu',
+  ],
   authors: [{ name: 'Anshu' }],
+  creator: 'Anshu',
+  publisher: 'Anshu',
+  category: 'technology',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    type: 'website', locale: 'en_IN',
-    siteName: 'Anshu',
-    title: 'Anshu — Automation & Web Developer',
-    description: 'I build automation systems and professional websites for businesses.',
+    type: 'website',
+    locale: 'en_IN',
+    url: SITE_URL,
+    siteName: 'Anshu — Web Developer & Automation Engineer',
+    title: 'Anshu — Website Developer & Automation Engineer in Ankleshwar, Gujarat',
+    description:
+      'Fast, SEO-friendly websites and Google Sheets automation for businesses in Ankleshwar, Bharuch and across Gujarat.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Anshu — Automation & Web Developer',
-    description: 'I build automation systems and professional websites for businesses.',
+    title: 'Anshu — Website Developer & Automation Engineer',
+    description:
+      'Fast, SEO-friendly websites and business automation for clients in Ankleshwar, Bharuch and across Gujarat.',
   },
   robots: {
-    index: true, follow: true,
+    index: true,
+    follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+  },
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
+  other: {
+    'geo.region': 'IN-GJ',
+    'geo.placename': 'Ankleshwar, Gujarat',
+    'geo.position': '21.6266;73.0017',
+    ICBM: '21.6266, 73.0017',
   },
 };
 
