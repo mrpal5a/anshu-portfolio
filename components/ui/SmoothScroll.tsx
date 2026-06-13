@@ -23,10 +23,11 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     }
 
     const lenis = new Lenis({
-      lerp: 0.09,            // continuous interpolation — smooth, no "stepping"
-      wheelMultiplier: 1.1,  // a flick covers more ground, feels less stoppy
+      lerp: 0.075,           // smooth, continuous catch-up
+      wheelMultiplier: 1.6,  // one firm scroll travels much further
       smoothWheel: true,
-      touchMultiplier: 1.8,
+      syncTouch: false,      // keep native momentum on mobile
+      touchMultiplier: 2,
     });
 
     function raf(time: number) {
