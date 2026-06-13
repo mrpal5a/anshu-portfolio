@@ -12,7 +12,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Toaster
         position="bottom-right"
         toastOptions={{
-          style: { background: '#161614', color: '#f0ede6', border: '1px solid rgba(240,237,230,0.08)' },
+          style: { background: '#16140f', color: '#f4f1ea', border: '1px solid rgba(244,241,234,0.1)' },
         }}
       />
       <Navbar />
