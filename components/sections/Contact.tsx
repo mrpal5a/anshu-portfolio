@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Mail, MessageCircle, Linkedin } from 'lucide-react';
 import FadeIn from '@/components/ui/FadeIn';
 
 const services = [
@@ -11,9 +12,9 @@ const services = [
 ];
 
 const contactLinks = [
-  { icon: '✉️', label: 'Email',     value: 'anshupal320@gmail.com',             href: 'mailto:anshupal320@gmail.com' },
-  { icon: '💬', label: 'WhatsApp',  value: '+91 9664738054',             href: 'https://wa.me/919664738054' },
-  { icon: '🔗', label: 'LinkedIn',  value: 'linkedin.com/in/anshu--pal', href: 'https://linkedin.com/in/anshu--pal' },
+  { Icon: Mail,          label: 'Email',     value: 'anshupal320@gmail.com',      href: 'mailto:anshupal320@gmail.com' },
+  { Icon: MessageCircle, label: 'WhatsApp',  value: '+91 9664738054',             href: 'https://wa.me/919664738054' },
+  { Icon: Linkedin,      label: 'LinkedIn',  value: 'linkedin.com/in/anshu--pal', href: 'https://linkedin.com/in/anshu--pal' },
 ];
 
 export default function Contact() {
@@ -69,14 +70,14 @@ export default function Contact() {
                   href={cl.href}
                   target={cl.href.startsWith('http') ? '_blank' : undefined}
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 px-5 py-4 rounded-sm transition-all duration-200 group"
+                  className="flex items-center gap-4 px-5 py-4 rounded-xl transition-all duration-200 group"
                   style={{ background: 'var(--bg-2)', border: '1px solid var(--border)' }}
                   onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent)'}
                   onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'}
                 >
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-base flex-shrink-0"
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
                     style={{ background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)' }}>
-                    {cl.icon}
+                    <cl.Icon size={18} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
                   </div>
                   <div>
                     <div className="text-xs mb-0.5" style={{ color: 'var(--muted)' }}>{cl.label}</div>

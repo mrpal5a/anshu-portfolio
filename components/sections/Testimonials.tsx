@@ -65,7 +65,8 @@ export default function Testimonials() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.45, ease: [0.25,0.46,0.45,0.94] }}
-                className="relative rounded-[1.75rem] border border-border bg-[rgba(255,255,255,0.72)] p-8 shadow-[0_20px_70px_rgba(0,0,0,0.08)] backdrop-blur-xl"
+                className="relative rounded-[1.75rem] border border-border p-8 shadow-[0_20px_70px_rgba(0,0,0,0.08)]"
+                style={{ background: 'var(--bg)' }}
               >
                 <span
                   className="absolute top-6 left-6 font-display text-8xl leading-none pointer-events-none select-none"

@@ -2,12 +2,13 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { Workflow, Globe, PackageSearch } from 'lucide-react';
 import TiltCard from '@/components/ui/TiltCard';
 import AnimatedHeading from '@/components/ui/AnimatedHeading';
 
 const services = [
   {
-    icon: '⚙️',
+    Icon: Workflow,
     num: '01',
     title: 'Spreadsheet Automation',
     description: 'Custom Google Apps Script automation for your Sheets: auto-calculations, scheduled email reports, dynamic dashboards, form triggers, and data validation — all without manual input.',
@@ -15,7 +16,7 @@ const services = [
     features: ['Email triggers & alerts', 'Auto-calculations', 'Custom menus', 'Data validation'],
   },
   {
-    icon: '🌐',
+    Icon: Globe,
     num: '02',
     title: 'Professional Websites',
     description: 'Fast, SEO-optimized, mobile-first websites that look premium and load in under 2 seconds. Built with modern frameworks — hosted, deployed, and handed to you fully live.',
@@ -23,7 +24,7 @@ const services = [
     features: ['Mobile responsive', 'SEO optimized', 'Contact forms', 'Fast loading'],
   },
   {
-    icon: '📊',
+    Icon: PackageSearch,
     num: '03',
     title: 'Inventory & Stock Systems',
     description: 'Digital inventory registers with auto-expiry tracking, status indicators, location mapping, and scheduled alerts — replacing paper-based or static Excel systems entirely.',
@@ -79,10 +80,16 @@ export default function Services() {
               transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
               <TiltCard
-                className="group relative flex flex-col h-full rounded-sm p-7 overflow-hidden"
+                className="group relative flex flex-col h-full rounded-[1.25rem] p-7 overflow-hidden"
                 style={{ background: 'var(--bg-2)', border: '1px solid var(--border)' }}
                 intensity={6}
               >
+                {/* Soft accent glow that appears on hover */}
+                <div
+                  className="pointer-events-none absolute -top-16 -right-16 w-44 h-44 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ background: 'radial-gradient(circle, var(--accent-dim), transparent 70%)' }}
+                  aria-hidden
+                />
                 {/* Hover bottom accent */}
                 <motion.div
                   className="absolute bottom-0 left-0 h-0.5"
@@ -95,7 +102,15 @@ export default function Services() {
                   {s.num}
                 </span>
 
-                <div className="text-3xl mb-5">{s.icon}</div>
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3"
+                  style={{
+                    background: 'var(--accent-dim)',
+                    border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
+                  }}
+                >
+                  <s.Icon size={24} strokeWidth={1.5} style={{ color: 'var(--accent)' }} />
+                </div>
                 <h3 className="font-display text-xl mb-3" style={{ color: 'var(--text)' }}>{s.title}</h3>
                 <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: 'var(--muted)' }}>{s.description}</p>
 

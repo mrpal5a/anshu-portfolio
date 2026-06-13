@@ -200,33 +200,33 @@ export default function WorkflowFlow() {
                   >
                     {/* Node on the spine */}
                     <div className="relative z-10 flex justify-start md:justify-center md:col-start-2 md:row-start-1">
-                      <motion.div
-                        className="w-14 h-14 rounded-full flex items-center justify-center"
-                        style={{
-                          background: 'var(--bg-2)',
-                          border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
-                          boxShadow: '0 0 0 6px var(--bg)',
-                        }}
-                        animate={
-                          reduced
-                            ? {}
-                            : {
-                                boxShadow: [
-                                  '0 0 0 6px var(--bg), 0 0 0 0 var(--accent-dim)',
-                                  '0 0 0 6px var(--bg), 0 0 18px 4px var(--accent-dim)',
-                                  '0 0 0 6px var(--bg), 0 0 0 0 var(--accent-dim)',
-                                ],
-                              }
-                        }
-                        transition={{
-                          duration: 3.4,
-                          delay: i * 0.55,
-                          repeat: Infinity,
-                          ease: 'easeInOut',
-                        }}
-                      >
-                        <Icon size={20} style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
-                      </motion.div>
+                      <div className="relative w-14 h-14">
+                        {/* Glow halo — animates opacity only (GPU-friendly) */}
+                        {!reduced && (
+                          <motion.span
+                            aria-hidden
+                            className="absolute inset-0 rounded-full"
+                            style={{ boxShadow: '0 0 20px 5px var(--accent-dim)', willChange: 'opacity' }}
+                            animate={{ opacity: [0, 1, 0] }}
+                            transition={{
+                              duration: 3.4,
+                              delay: i * 0.55,
+                              repeat: Infinity,
+                              ease: 'easeInOut',
+                            }}
+                          />
+                        )}
+                        <div
+                          className="relative w-14 h-14 rounded-full flex items-center justify-center"
+                          style={{
+                            background: 'var(--bg-2)',
+                            border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
+                            boxShadow: '0 0 0 6px var(--bg)',
+                          }}
+                        >
+                          <Icon size={20} style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
+                        </div>
+                      </div>
                     </div>
 
                     {/* Card — left or right column on desktop, single column on mobile */}

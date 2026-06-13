@@ -32,7 +32,7 @@ export default function FeaturedCaseStudy({ project }: { project: Project }) {
                     alt={project.title}
                     className="w-full h-[380px] object-cover"
                   />
-                  <div className="absolute top-6 left-6 rounded-full border border-border bg-[rgba(255,255,255,0.9)] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
+                  <div className="absolute top-6 left-6 rounded-full border border-border bg-[var(--bg-2)] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_10px_30px_rgba(0,0,0,0.1)]">
                     Featured project
                   </div>
                 </div>

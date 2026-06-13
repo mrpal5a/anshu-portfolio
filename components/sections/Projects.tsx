@@ -137,7 +137,7 @@ export default function Projects({ projects, featuredProjectId }: { projects?: P
           {items.map((p, i) => (
             <FadeIn key={p.id} delay={i * 80}>
               <div
-                className={`group overflow-hidden flex flex-col h-full rounded-[1.5rem] transition-all duration-300 shadow-[0_18px_60px_rgba(0,0,0,0.07)] ${p.featured ? 'md:col-span-2 md:flex-row bg-gradient-to-br from-[rgba(184,134,11,0.06)] via-transparent to-[rgba(255,255,255,0.8)]' : 'hover:-translate-y-1 hover:border-accent/30'}`}
+                className={`group overflow-hidden flex flex-col h-full rounded-[1.5rem] transition-all duration-300 shadow-[0_18px_60px_rgba(0,0,0,0.07)] ${p.featured ? 'md:col-span-2 md:flex-row bg-gradient-to-br from-[var(--accent-dim)] via-transparent to-transparent' : 'hover:-translate-y-1 hover:border-accent/30'}`}
                 style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = 'color-mix(in srgb, var(--accent) 45%, transparent)'}
                 onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'}
